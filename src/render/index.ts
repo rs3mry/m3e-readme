@@ -1,4 +1,4 @@
-import { about, AUTO_ICONS, buttons, card, credit, hero, projectList, projectView, SITE_URL, socials, stack, stats, streak, wave } from "./blocks";
+import { about, AUTO_ICONS, buttons, card, hero, projectList, projectView, SITE_URL, socials, stack, stats, streak, wave } from "./blocks";
 import { esc } from "./kit";
 import { palette } from "./palette";
 import type { BlockId, Config, Data, Icons, Lang } from "./types";
@@ -27,6 +27,7 @@ export function defaults(login: string, lang: Lang): Config {
       name: "",
       subtitle: ru ? "Делаю интерфейсы и небольшие полезные утилиты." : "I build interfaces and small useful tools.",
       typing: true,
+      showAvatar: true,
       avatarShape: "cookie12",
       chips: [
         { icon: "location_on", label: ru ? "Земля" : "Earth" },
@@ -171,7 +172,6 @@ export function render(c: Config, d: Data, all: Icons, avatar: string | null, th
     put("streak", streak(ctx));
     for (const [name, svg] of Object.entries(socials(ctx))) put(name, svg);
     for (const [name, svg] of Object.entries(buttons(ctx))) put(name, svg);
-    put("credit", credit(ctx));
     repos.forEach((r, n) => put(`project-${slug(r.name)}`, card(ctx, r, n)));
   }
   return files;
@@ -222,6 +222,5 @@ export function readme(c: Config, d: Data, files: Record<string, string>) {
       parts.push(linkRow(files, "button", links, "auto", "&nbsp;&nbsp;"));
     }
   }
-  parts.push(`<a href="${SITE_URL}?from=${encodeURIComponent(c.login)}">${pic("credit", "Made with Expressive Profile", "auto")}</a>`);
   return '<div align="center">\n\n' + parts.join("\n\n") + "\n\n</div>\n";
 }

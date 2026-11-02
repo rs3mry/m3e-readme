@@ -109,7 +109,12 @@ function remixFrom(theirs: Config, lang: Lang, login: string): Config {
     motion: theirs.motion ?? base.motion,
     order: theirs.order ?? base.order,
     hidden: theirs.hidden ?? base.hidden,
-    hero: { ...base.hero, avatarShape: theirs.hero?.avatarShape ?? base.hero.avatarShape, typing: theirs.hero?.typing ?? base.hero.typing },
+    hero: {
+      ...base.hero,
+      showAvatar: theirs.hero?.showAvatar ?? base.hero.showAvatar,
+      avatarShape: theirs.hero?.avatarShape ?? base.hero.avatarShape,
+      typing: theirs.hero?.typing ?? base.hero.typing,
+    },
   };
 }
 
@@ -437,9 +442,6 @@ export default function App() {
                 </Block>
               ))}
             </Reorder.Group>
-            <div className="credit">
-              <img draggable={false} src={src("credit")} alt="Made with Expressive Profile" style={{ width: width("credit") * Math.min(1, k), height: width("credit") * Math.min(1, k) * ratio("credit") }} />
-            </div>
           </div>
 
           <AnimatePresence>

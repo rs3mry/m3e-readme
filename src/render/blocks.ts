@@ -64,25 +64,29 @@ export function hero(ctx: Ctx, avatar: string | null) {
   b.push(`<path class="bob" d="${shape("clover", 690, 292, 62)}" fill="${p.tertiaryContainer}"/>`);
   b.push(`<path class="spin-r" d="${shape("sunny", 812, 236, 34)}" fill="${p.secondaryContainer}"/>`);
   b.push("</g>");
-  const cx = 150;
-  const cy = 150;
-  const frame = c.hero.avatarShape;
-  b.push(`<path class="spin" d="${shape("sunny", cx, cy, 112)}" fill="${p.primary}" opacity=".9"/>`);
-  b.push(`<clipPath id="ava"><path d="${shape(frame, cx, cy, 98)}"/></clipPath>`);
-  b.push(`<path d="${shape(frame, cx, cy, 102)}" fill="${p.surfaceContainer}"/>`);
-  if (avatar) {
-    b.push(`<g class="fade"><image href="${avatar}" x="${cx - 100}" y="${cy - 100}" width="200" height="200" clip-path="url(#ava)" preserveAspectRatio="xMidYMid slice"/></g>`);
-  } else {
-    b.push(`<path d="${shape(frame, cx, cy, 98)}" fill="${p.primaryContainer}"/>`);
-    b.push(icon(i, "person", cx - 44, cy - 44, 88, p.onPrimaryContainer));
+  const showAvatar = c.hero.showAvatar !== false;
+  if (showAvatar) {
+    const cx = 150;
+    const cy = 150;
+    const frame = c.hero.avatarShape;
+    b.push(`<path class="spin" d="${shape("sunny", cx, cy, 112)}" fill="${p.primary}" opacity=".9"/>`);
+    b.push(`<clipPath id="ava"><path d="${shape(frame, cx, cy, 98)}"/></clipPath>`);
+    b.push(`<path d="${shape(frame, cx, cy, 102)}" fill="${p.surfaceContainer}"/>`);
+    if (avatar) {
+      b.push(`<g class="fade"><image href="${avatar}" x="${cx - 100}" y="${cy - 100}" width="200" height="200" clip-path="url(#ava)" preserveAspectRatio="xMidYMid slice"/></g>`);
+    } else {
+      b.push(`<path d="${shape(frame, cx, cy, 98)}" fill="${p.primaryContainer}"/>`);
+      b.push(icon(i, "person", cx - 44, cy - 44, 88, p.onPrimaryContainer));
+    }
   }
-  const x = 294;
+  const x = showAvatar ? 294 : 56;
   const name = c.hero.name || c.login;
   const room = W - x - 40;
   const size = Math.min(68, room / Math.max(1, textWidth(name, 1, 700)));
   b.push(txt(x, 92, c.hero.greeting, 22, p.onSurfaceVariant, { weight: 500, cls: "up", delay: 0.1 }));
   b.push(pop(txt(x - 3, 156, name, size, p.onSurface, { cls: "wght" }), 0.2, "up"));
-  const lines = wrap(c.hero.subtitle, 19, 430, 400, 2);
+  const maxSubtitleWidth = showAvatar ? 430 : 660;
+  const lines = wrap(c.hero.subtitle, 19, maxSubtitleWidth, 400, 2);
   let extra = "";
   if (c.hero.typing && c.motion && lines.join("")) {
     const [body, css] = typing(lines, x, p);

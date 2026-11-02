@@ -352,7 +352,7 @@ a {
 }
 
 .paper-body {
-  padding: 24px 32px 0;
+  padding: 24px 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;

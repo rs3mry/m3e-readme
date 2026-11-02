@@ -19,6 +19,7 @@ interface Props {
 function Hero({ c, set, t }: Props) {
   const h = c.hero;
   const up = (v: Partial<Config["hero"]>) => set((c) => ({ ...c, hero: { ...c.hero, ...v } }));
+  const showAvatar = h.showAvatar !== false;
   return (
     <>
       <Section>
@@ -26,10 +27,13 @@ function Hero({ c, set, t }: Props) {
         <Field label={t.name} value={h.name} placeholder={c.login || t.namePlaceholder} onChange={(name) => up({ name })} maxLength={32} />
         <Field label={t.subtitle} value={h.subtitle} onChange={(subtitle) => up({ subtitle })} multiline maxLength={140} />
         <Switch label={t.typing} value={h.typing} onChange={(typing) => up({ typing })} />
+        <Switch label={t.showAvatar} value={showAvatar} onChange={(showAvatar) => up({ showAvatar })} />
       </Section>
-      <Section title={t.avatarShape}>
-        <ShapePicker value={h.avatarShape} onChange={(s) => up({ avatarShape: s ?? "cookie12" })} />
-      </Section>
+      {showAvatar && (
+        <Section title={t.avatarShape}>
+          <ShapePicker value={h.avatarShape} onChange={(s) => up({ avatarShape: s ?? "cookie12" })} />
+        </Section>
+      )}
       <Section title={t.chips}>
         <ItemList items={h.chips} onChange={(chips) => up({ chips })} t={t} max={4} fresh={{ icon: "star", label: "New" }} />
       </Section>

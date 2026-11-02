@@ -39,6 +39,7 @@ export interface Config {
     name: string;
     subtitle: string;
     typing: boolean;
+    showAvatar?: boolean;
     avatarShape: ShapeName;
     chips: Item[];
   };
